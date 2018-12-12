@@ -41,12 +41,10 @@ public class Controller {
                     pretraga(file1.getAbsolutePath(), uzorak);
                 }
             } catch (Exception exception) {
-                System.out.println(exception.getMessage());
             }
         }
         else if (file.isFile()) {
             if (file.getName().contains(uzorak)) {
-                System.out.println(file.getAbsolutePath());
                 observabilnaLista.add(file.getAbsolutePath());
             }
         }
