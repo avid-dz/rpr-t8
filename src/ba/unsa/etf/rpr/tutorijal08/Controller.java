@@ -24,7 +24,6 @@ public class Controller {
 
     public Controller() {
         korijenskiDirektorij = new File(System.getProperty("user.home"));
-        //korijenskiDirektorij = new File("C:\\demokratija");
         observabilnaLista = FXCollections.observableArrayList();
     }
 
