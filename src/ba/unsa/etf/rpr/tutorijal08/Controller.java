@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr.tutorijal08;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,6 +51,13 @@ public class Controller {
     }
 
     public void pretragaF(ActionEvent actionEvent) {
-        pretraga(korijenskiDirektorij.getAbsolutePath(), tekst.getText());
+        new Thread(() -> {
+            try {
+                Platform.runLater(() -> pretraga(korijenskiDirektorij.getAbsolutePath(), tekst.getText()));
+                //Thread.sleep(500);
+            } catch (Exception e) {
+
+            }
+        }).start();
     }
 }
