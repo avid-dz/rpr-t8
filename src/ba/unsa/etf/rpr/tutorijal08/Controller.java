@@ -15,10 +15,11 @@ public class Controller {
 
     public Label labela;
     public ListView lista;
-    public Button dugme;
+    public Button dugmeTrazi;
     public TextField tekst;
-    public File korijenskiDirektorij;
+    private File korijenskiDirektorij;
     private ObservableList<String> observabilnaLista;
+    public Button dugmePrekini;
 
     public Controller() {
         korijenskiDirektorij = new File(System.getProperty("user.home"));
@@ -28,9 +29,12 @@ public class Controller {
     @FXML
     public void initialize() {
         lista.setItems(observabilnaLista);
+        dugmePrekini.setDisable(true);
+        dugmeTrazi.setDisable(false);
     }
 
     private void pretraga(String put, String uzorak) {
+        if (dugmePrekini.isDisabled()) Thread.currentThread().stop();
         File file = new File(put);
         if (file.isFile()) {
             if (file.getName().contains(uzorak)) {
@@ -49,9 +53,21 @@ public class Controller {
             } catch (Exception exception) {
             }
         }
+        if (file.getAbsolutePath().equals(korijenskiDirektorij.getAbsolutePath())) {
+            dugmePrekini.setDisable(true);
+            dugmeTrazi.setDisable(false);
+        }
     }
 
     public void pretragaF(ActionEvent actionEvent) {
+        observabilnaLista.clear();
+        dugmePrekini.setDisable(false);
+        dugmeTrazi.setDisable(true);
         new Thread(() -> pretraga(korijenskiDirektorij.getAbsolutePath(), tekst.getText())).start();
+    }
+
+    public void prekiniF(ActionEvent actionEvent) {
+        dugmePrekini.setDisable(true);
+        dugmeTrazi.setDisable(false);
     }
 }

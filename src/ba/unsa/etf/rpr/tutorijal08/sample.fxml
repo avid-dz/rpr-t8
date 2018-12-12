@@ -8,9 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.tutorijal08.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.tutorijal08.Controller">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -24,19 +22,27 @@
             </Label>
             <TextField fx:id="tekst">
                <padding>
-                  <Insets bottom="5.0" left="3.0" right="5.0" top="5.0" />
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
                <HBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="5.0" left="3.0" right="8.0" top="5.0" />
                </HBox.margin>
             </TextField>
-            <Button fx:id="dugme" minWidth="54.0" mnemonicParsing="false" onAction="#pretragaF" text="Traži">
+            <Button fx:id="dugmeTrazi" minWidth="54.0" mnemonicParsing="false" onAction="#pretragaF" text="Traži">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
                <HBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="5.0" left="5.0" right="7.0" top="5.0" />
                </HBox.margin>
+            </Button>
+            <Button fx:id="dugmePrekini" minWidth="54.0" mnemonicParsing="false" onAction="#prekiniF" text="Prekini">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="7.0" right="5.0" top="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
             </Button>
          </children>
          <padding>
