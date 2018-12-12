@@ -9,10 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-
 import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class Controller {
 
@@ -35,7 +32,16 @@ public class Controller {
 
     private void pretraga(String put, String uzorak) {
         File file = new File(put);
-        if (file.isDirectory()) {
+        if (file.isFile()) {
+            if (file.getName().contains(uzorak)) {
+                try {
+                    Platform.runLater(() -> observabilnaLista.add(file.getAbsolutePath()));
+                    Thread.sleep(180);
+                } catch (Exception exception) {
+                }
+            }
+        }
+        else if (file.isDirectory()) {
             try {
                 for (File file1 : file.listFiles()) {
                     pretraga(file1.getAbsolutePath(), uzorak);
@@ -43,21 +49,9 @@ public class Controller {
             } catch (Exception exception) {
             }
         }
-        else if (file.isFile()) {
-            if (file.getName().contains(uzorak)) {
-                observabilnaLista.add(file.getAbsolutePath());
-            }
-        }
     }
 
     public void pretragaF(ActionEvent actionEvent) {
-        new Thread(() -> {
-            try {
-                Platform.runLater(() -> pretraga(korijenskiDirektorij.getAbsolutePath(), tekst.getText()));
-                //Thread.sleep(500);
-            } catch (Exception e) {
-
-            }
-        }).start();
+        new Thread(() -> pretraga(korijenskiDirektorij.getAbsolutePath(), tekst.getText())).start();
     }
 }
