@@ -1,15 +1,22 @@
 package ba.unsa.etf.rpr.tutorijal08;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import java.io.File;
+import java.io.IOException;
 
 public class Controller {
 
@@ -31,6 +38,24 @@ public class Controller {
         lista.setItems(observabilnaLista);
         dugmePrekini.setDisable(true);
         dugmeTrazi.setDisable(false);
+        lista.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                prikazProzoraZaSlanje();
+            }
+        });
+    }
+
+    private void prikazProzoraZaSlanje() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("prozorZaSlanje.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Slanje poštom");
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void pretraga(String put, String uzorak) {
