@@ -26,8 +26,6 @@
         <RowConstraints />
         <RowConstraints />
         <RowConstraints />
-        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="BOTTOM" />
-        <RowConstraints valignment="BOTTOM" />
     </rowConstraints>
     <children>
         <GridPane hgap="5.0" vgap="5.0">
@@ -63,9 +61,9 @@
                 <Label text="Poštanski broj" />
                 <Label text="Grad" GridPane.rowIndex="1" />
                 <TextField fx:id="postanskiBroj" GridPane.columnIndex="1" />
-                <ComboBox fx:id="mjestoRodjenja" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <ComboBox fx:id="grad" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+              <Button fx:id="potvrdjivanje" mnemonicParsing="false" onAction="#potvrdaSlanja" text="Potvrdi slanje" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
             </children>
         </GridPane>
-        <Button fx:id="potvrdjivanje" mnemonicParsing="false" onAction="#potvrdaSlanja" text="Potvrdi slanje" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
     </children>
 </GridPane>

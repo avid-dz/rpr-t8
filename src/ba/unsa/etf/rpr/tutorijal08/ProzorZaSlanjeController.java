@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr.tutorijal08;
 
 import com.sun.javafx.scene.control.skin.ChoiceBoxSkin;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -11,7 +12,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -27,6 +32,7 @@ public class ProzorZaSlanjeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        grad.setItems(FXCollections.observableArrayList("Sarajevo", "Gorazde", "Zenica", "Tuzla", "Mostar"));
         ime.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String o, String n) {
@@ -63,31 +69,48 @@ public class ProzorZaSlanjeController implements Initializable {
                 }
             }
         });
+        postanskiBroj.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> obs, Boolean o, Boolean n) {
+                if (!n) {
+                    new Thread(() -> validacijaPostanskog(postanskiBroj.getText())).start();
+                }
+            }
+        });
     }
 
     public void potvrdaSlanja(ActionEvent actionEvent) {
-        if (validnoIme(ime.getText()) && validnoPrezime(prezime.getText()) && validanEMail(eMail.getText())
-                && validanIndex(brojIndexa.getText()) && validanTelefonskiBroj(kontaktTelefon.getText())
-                && validanJMBG(jmbg.getText())) {
-            System.out.println("Informacije o upisanom studentu:");
-            System.out.println("Ime i prezime: " + ime.getText() + prezime.getText());
-            System.out.println("Index: " + brojIndexa.getText());
-            System.out.println("JMBG: " + jmbg.getText());
-            System.out.println("Datum rodjenja: " + datumRodjenja.getValue());
-            System.out.println("Grad rodjenja: " + mjestoRodjenja.getSelectionModel().getSelectedItem());
-            System.out.println("Adresa: " + kontaktAdresa.getText());
-            System.out.println("Telefon: " + kontaktTelefon.getText());
-            System.out.println("email: " + eMail.getText());
-            System.out.println("Odsjek: " + odsjek.getSelectionModel().getSelectedItem());
-            System.out.println("Godina: " + godinaStudija.getSelectionModel().getSelectedItem());
-            System.out.println("Ciklus: " + ciklusStudija.getSelectionModel().getSelectedItem());
-            if (redovan.isSelected()) System.out.println("Status: redovni");
-            else System.out.println("Status: redovni samofinansirajuci");
-            if (borackaKategorija.isSelected()) System.out.println("Pripada borackim kategorijama.");
-            else System.out.println("Ne pripada borackim kategorijama.");
-        }
-        else {
-            prikazProzoraZaGresku(actionEvent);
+        if (!validnoIme(ime.getText()) || !validnoPrezime(prezime.getText())
+                || !validnaAdresa(kontaktAdresa.getText()))
+            System.out.println("INVALID");
+        else
+            System.out.println("VALID");
+    }
+
+    private void validacijaPostanskog(String n) {
+        try {
+            BufferedReader ulaz = new BufferedReader
+                    (new InputStreamReader(new URL("http://c9.etf.unsa.ba/proba/postanskiBroj.php?postanskiBroj="
+                            + postanskiBroj.getText()).openStream(), StandardCharsets.UTF_8));
+            String procitano = "", line = null;
+            while ((line = ulaz.readLine()) != null) procitano = procitano + line;
+            if (procitano.contains("NOT")) {
+                Platform.runLater(() -> {
+                    postanskiBroj.getStyleClass().removeAll("validField");
+                    postanskiBroj.getStyleClass().add("invalidField");
+                });
+                Thread.sleep(180);
+            }
+            else {
+                Platform.runLater(() -> {
+                    postanskiBroj.getStyleClass().removeAll("invalidField");
+                    postanskiBroj.getStyleClass().add("validField");
+                });
+                Thread.sleep(180);
+            }
+            System.out.println(procitano);
+        } catch(Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -111,6 +134,7 @@ public class ProzorZaSlanjeController implements Initializable {
     }
     private boolean validnaAdresa(String n) {
         if (n.trim().equals("")) return true;
+        if (!(n.charAt(0) >= 65 && n.charAt(0) <= 90)) return false;
         if (!Character.isLetter(n.charAt(0))) return false;
         return true;
     }
