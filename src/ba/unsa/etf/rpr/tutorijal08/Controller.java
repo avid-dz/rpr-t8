@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 import java.io.File;
 import java.io.IOException;
 
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
+
 public class Controller {
 
     public Label labela;
@@ -51,7 +53,7 @@ public class Controller {
             Parent root = FXMLLoader.load(getClass().getResource("prozorZaSlanje.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Slanje poštom");
-            stage.setScene(new Scene(root, 450, 450));
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
